@@ -14,15 +14,13 @@ public class VisitorDynamicProxy {
     public static void main(String[] args) {
         Payment[] payment=new Payment[]{new Check(),new Card(),new Cash(),new Pos()};
         PrintPaymentVisitor printPaymentVisitor=new PrintPaymentVisitor();
-
-//        for(Payment p : payment){
-//            p.accept(printPaymentVisitor);
-//        }
         Class[] interfaces = new Class[1];
         interfaces[0]= PaymentVisitor.class;
         PaymentVisitor proxy=(PaymentVisitor) Proxy.newProxyInstance(VisitorDynamicProxy.class.getClassLoader(),
                 interfaces, new VisitorHandler(printPaymentVisitor));
-        proxy.visit(new Pos());
+        for(Payment p : payment) {
+            proxy.visit(p);
+        }
 
     }
 
